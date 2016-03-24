@@ -8,8 +8,7 @@ public class Statics {
     //ITunes
 	public final static String ITUNES_API_FORMAT  = "https://itunes.apple.com/search?term=%s&media=music&entity=musicTrack&artistTerm=%s&albumTerm=%s&limit=1";
 	//AMAZON
-	public final static String SECRET_KEY    = "r6dlTvW38WJIkcfp/tTzvYcuiQF/7w3g2U7SYNs6";
-	public final static String ACCESS_KEY    = "AKIAIQ53G5SLUZXGJWBQ";
+
 	public final static String HOST          = "ecs.amazonaws.com";
 	public final static String SERVICE       = "AWSECommerceService";
 	public final static String ASSOCIATE_TAG = "ti069-20";
