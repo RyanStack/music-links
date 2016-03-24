@@ -16,6 +16,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.util.CharsetUtil;
 
 public class RequestHandler extends ChannelInboundHandlerAdapter {
 
@@ -32,21 +33,21 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
 
 		//Is there a better way so I don't have to remember order of input
 		SearchDetails searchDetails = new SearchDetails(artist, album, track);
-		
+
 		APIExecutorService executor = new APIExecutorService();
 		//This is the results of the api calls
 		List<Future<String>> results = executor.runQueries(searchDetails);
-		
-//		
+
+//
 		for (Future<String> future : results) {
 			try {
 				System.out.println(future.get());
-				ctx.write(future.get());
+				ctx.writeAndFlush(future.get());
    			} catch (ExecutionException e) {
-   				ctx.write("Fuck bitches, get money");
+   				ctx.writeAndFlush("temp error");
    				e.printStackTrace();
    			} catch (InterruptedException e) {
-   				ctx.write("Fuck bitches, get money");
+   				ctx.writeAndFlush("temp error");
    				e.printStackTrace();
    			}
 		}
@@ -58,8 +59,13 @@ public class RequestHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	 public void channelReadComplete(ChannelHandlerContext ctx) {
 		ctx.writeAndFlush(Unpooled.EMPTY_BUFFER)
-		.addListener(ChannelFutureListener.CLOSE); 
+		.addListener(ChannelFutureListener.CLOSE);
 	 }
+
+//	public void channelActive(ChannelHandlerContext ctx) {
+//		System.out.println("Connected");
+//		ctx.writeAndFlush(Unpooled.copiedBuffer("Netty MAY rock!", CharsetUtil.UTF_8));
+//	}
 	
 	@Override
 	 public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
