@@ -17,7 +17,8 @@ public class APIExecutorService {
 	private String[] providers = Factory.providers; 
 	
 	public List<Future<String>> runQueries(SearchDetails searchDetails) {
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		//Investigate what is the optimal amount of threads based on # of providers and server qualities
+		ExecutorService executorService = Executors.newFixedThreadPool(5);
 		Set<Callable<String>> callables = new HashSet<Callable<String>>();
 		
 		for(String provider : providers) {
@@ -27,6 +28,7 @@ public class APIExecutorService {
 
 		List<Future<String>> futures = null;
 		try {
+			//Have more sophisticated error catching/data checking
 			futures = executorService.invokeAll(callables);
 			return futures;
 		} catch (InterruptedException e) {

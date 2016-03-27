@@ -4,7 +4,8 @@ import stackdaddy.music_links.models.SearchDetails;
 
 public class Factory {
 
-	public static final String[] providers = { "YouTubeAdapter", "Spotify", "iTunesAdapter", "GooglePlayAdapter", "AmazonAdapter" };
+//	"AmazonAdapter" temporarily taken out
+	public static final String[] providers = { "YouTubeAdapter", "Spotify", "iTunesAdapter", "GooglePlayAdapter"};
 	
 	public static InterfaceAdapter getProvider(String provider, SearchDetails searchDetails){
 	   
