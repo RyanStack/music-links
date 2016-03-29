@@ -18,6 +18,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast(new HttpServerCodec());
 		pipeline.addLast(new HttpObjectAggregator(SIZE));
 		pipeline.addLast(new RequestFilter());
+		pipeline.addLast(new RequestParameterDecoder());
+		pipeline.addLast(new GsonResponseEncoder());
 		pipeline.addLast(new RequestHandler());
 	}
 

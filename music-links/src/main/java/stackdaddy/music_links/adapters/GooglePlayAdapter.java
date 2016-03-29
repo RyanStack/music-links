@@ -61,7 +61,7 @@ public class GooglePlayAdapter extends BaseAdapter {
 			
 			url      = (String) result.get("unescapedUrl");
 		    title    = (String) result.get("titleNoFormatting");
-		    provider = (String) this.getClass().getSimpleName();
+		    provider = this.getClass().getSimpleName();
 		    
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
