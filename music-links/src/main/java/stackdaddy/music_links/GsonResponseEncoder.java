@@ -1,6 +1,5 @@
 package stackdaddy.music_links;
 
-import io.netty.channel.ChannelFutureListener;
 import stackdaddy.music_links.models.FormattedResult;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -9,6 +8,7 @@ import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -22,10 +22,15 @@ import java.util.concurrent.Future;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by ryanstack on 3/28/16.
  */
 public class GsonResponseEncoder extends ChannelOutboundHandlerAdapter {
+
+	static Logger LOGGER = LoggerFactory.getLogger(GsonResponseEncoder.class);
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg,
@@ -33,7 +38,7 @@ public class GsonResponseEncoder extends ChannelOutboundHandlerAdapter {
 
         List<Future<FormattedResult>> results = (List<Future<FormattedResult>>) msg;
 
-        //Need to properly organize data and better error catching
+        //TODO: Need to properly organize data and better error catching
 		StringBuilder sb = new StringBuilder();
 
 		for (Future<FormattedResult> future : results) {
@@ -50,8 +55,8 @@ public class GsonResponseEncoder extends ChannelOutboundHandlerAdapter {
    			}
 		}
 
-		System.out.println("printing results");
-        System.out.println(sb.toString());
+		LOGGER.info("printing results");
+		LOGGER.info(sb.toString());
 
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(sb.toString().getBytes()));
         response.headers().set(CONTENT_TYPE, "application/json");

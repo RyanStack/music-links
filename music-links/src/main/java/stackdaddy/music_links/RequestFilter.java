@@ -7,19 +7,22 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
 
-
 import io.netty.handler.codec.http.FullHttpResponse;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class RequestFilter extends ChannelInboundHandlerAdapter {
 
+    static Logger LOGGER = LoggerFactory.getLogger(RequestFilter.class);
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        System.out.println("received a request..............");
+        LOGGER.info("Received a request..............");
 
-//      Handle request
         HttpRequest request = (HttpRequest) msg;
 
         boolean isCorrectRequest = isCorrectBrowserRequest(request);
@@ -38,7 +41,7 @@ public class RequestFilter extends ChannelInboundHandlerAdapter {
 
     private static boolean isCorrectBrowserRequest(HttpRequest request) {
         String uri = request.getUri();
-        System.out.println(uri);
+        LOGGER.info(uri);
         if (uri.startsWith("/?track=") || uri.startsWith("/?artist=") || uri.startsWith("/?album=")) {
             return true;
         }

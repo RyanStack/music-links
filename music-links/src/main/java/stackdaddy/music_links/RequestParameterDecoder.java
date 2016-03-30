@@ -10,10 +10,15 @@ import stackdaddy.music_links.models.SearchDetails;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by ryanstack on 3/28/16.
  */
 public class RequestParameterDecoder extends ChannelInboundHandlerAdapter {
+
+    static Logger LOGGER = LoggerFactory.getLogger(RequestParameterDecoder.class);
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -25,15 +30,14 @@ public class RequestParameterDecoder extends ChannelInboundHandlerAdapter {
         String artist = StringUtils.join(params.get("artist"), " ");
         String album  = StringUtils.join(params.get("album"), " ");
 
-        System.out.println("printing out request parameters");
-        System.out.println(track);
-        System.out.println(artist);
-        System.out.println(album);
+        LOGGER.info("printing out request parameters");
+        LOGGER.info(track);
+        LOGGER.info(artist);
+        LOGGER.info(album);
 
         //Is there a better way so I don't have to remember order of input
         SearchDetails searchDetails = new SearchDetails(artist, album, track);
         ctx.fireChannelRead(searchDetails);
-
     }
 
     @Override
