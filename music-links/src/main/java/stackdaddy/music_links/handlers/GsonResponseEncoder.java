@@ -1,4 +1,4 @@
-package stackdaddy.music_links;
+package stackdaddy.music_links.handlers;
 
 import stackdaddy.music_links.models.FormattedResult;
 

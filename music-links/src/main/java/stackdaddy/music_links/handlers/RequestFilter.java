@@ -1,13 +1,12 @@
-package stackdaddy.music_links;
+package stackdaddy.music_links.handlers;
 
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
-
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.HttpRequest;
-
 import io.netty.handler.codec.http.FullHttpResponse;
+
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
@@ -27,10 +26,11 @@ public class RequestFilter extends ChannelInboundHandlerAdapter {
 
         boolean isCorrectRequest = isCorrectBrowserRequest(request);
         if (!isCorrectRequest) {
+            //Providing a response for secondary requests in HTTP pipeline
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer("".getBytes()));
             ctx.write(response);
         } else {
-            ctx.fireChannelRead(msg);
+            ctx.fireChannelRead(request);
         }
     }
 

@@ -1,5 +1,6 @@
 package stackdaddy.music_links;
 
+import stackdaddy.music_links.handlers.RequestHandler;
 import stackdaddy.music_links.utils.Config;
 
 import java.net.InetSocketAddress;
